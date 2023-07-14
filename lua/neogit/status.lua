@@ -14,6 +14,7 @@ local fs = require("neogit.lib.fs")
 local input = require("neogit.lib.input")
 
 local map = require("neogit.lib.util").map
+local find_key_by_value = require("neogit.lib.util").find_key_by_value
 local api = vim.api
 local fn = vim.fn
 
@@ -155,7 +156,24 @@ local function draw_buffer()
 
   local output = LineBuffer.new()
   if not config.values.disable_hint then
-    output:append("Hint: [<tab>] toggle diff | [s]tage | [u]nstage | [x] discard | [c]ommit | [?] more help")
+    local keybinds = {
+      toggle = find_key_by_value(config.values.mappings.status, "Toggle"),
+      stage = find_key_by_value(config.values.mappings.status, "Stage"),
+      unstage = find_key_by_value(config.values.mappings.status, "Unstage"),
+      discard = find_key_by_value(config.values.mappings.status, "Discard"),
+      commit = find_key_by_value(config.values.mappings.status, "CommitPopup"),
+      help = find_key_by_value(config.values.mappings.status, "HelpPopup"),
+    }
+    local help_menu = string.format(
+      "Hint: [%s] toggle diff | [%s] stage | [%s] unstage | [%s] discard | [%s] commit | [%s] more help",
+      keybinds.toggle,
+      keybinds.stage,
+      keybinds.unstage,
+      keybinds.discard,
+      keybinds.commit,
+      keybinds.help
+    )
+    output:append(help_menu)
     output:append("")
   end
 

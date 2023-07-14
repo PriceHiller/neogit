@@ -240,6 +240,14 @@ local function find(tbl, cond)
   return res
 end
 
+local function find_key_by_value(tbl, search_value)
+  for key, value in pairs(tbl) do
+    if search_value == value then
+      return key
+    end
+  end
+end
+
 local function build_reverse_lookup(tbl)
   local result = {}
   for i, v in ipairs(tbl) do
@@ -276,4 +284,5 @@ return {
   merge = merge,
   str_min_width = str_min_width,
   str_clamp = str_clamp,
+  find_key_by_value = find_key_by_value,
 }
